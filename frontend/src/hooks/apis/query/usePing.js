@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { pingApi } from '../../../apis/ping.js'
 
-//read about caching in frontend , 
+// read about caching in frontend , 
 // how is it done using reactQuery
 // what is cache-time and stale time 
 
