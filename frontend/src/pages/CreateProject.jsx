@@ -1,12 +1,15 @@
+import { useNavigate } from "react-router-dom"
 import { useCreateProject } from "../hooks/apis/mutation/useCreateProject"
 
 export const CreateProject = ()=>{
 
+    const navigate = useNavigate()
     const { mutateAsync ,isPending } = useCreateProject()
+    
     async function handleCreateProject(){
         try {
-             await mutateAsync()
-             console.log("Now we should redirect to the editor page")
+            const response =  await mutateAsync()
+            navigate(`/project/${response.data}`)
         } catch (error) {
             console.log("Error creating project : ",error)
         }
