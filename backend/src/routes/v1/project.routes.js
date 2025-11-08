@@ -1,8 +1,9 @@
 import express from 'express'
-import { createProjectController } from '../../controllers/project.controller.js'
+import { createProjectController, getProjectTreeController } from '../../controllers/project.controller.js'
 
 const router= express.Router()
 
 router.post('/',createProjectController)
+router.get('/:projectId',getProjectTreeController)
 
 export default router

@@ -1,29 +1,29 @@
-import util from 'util'
-import child_process from 'child_process'
-import fs from 'fs/promises'
-import uuid4 from 'uuid4'
-
-const execPromisified =  util.promisify(child_process.exec)
+import { createProjectService, getProjectTreeService } from "../service/project.service.js"
 
 export const createProjectController = async (req,res)=>{
     
-    //create a unique id and then in projects folder create a folder with that id
-    const projectId = uuid4()
-    console.log("Project id is : ",projectId);
-    
-    // when we use mkdir with fs hten the command is executed from root directory 
-    // so when we do ./projects then we will go in projects directory
-    await fs.mkdir(`./projects/${projectId}`)
-
-    //after this call the npm create vite@latest command in the newly created folder 
-    const response = execPromisified('npm create vite@latest sandbox -- --template react',{
-        cwd : `./projects/${projectId}`
-    })
+    const projectId = await createProjectService()
 
 
     // const { stdout, stderr } = await execPromisified('npm create vite@latest');
     // console.log('stdout:', stdout);
     // console.error('stderr:', stderr);
 
-    return res.json({message : 'project created' , data : projectId})
+    return res.json(
+        {
+            message : 'project created' , 
+            data : projectId
+        }
+    )
+}
+
+export const getProjectTreeController = async (req,res)=>{
+
+    const tree = await getProjectTreeService(req.params.projectId);
+    return res.status(200).json({
+        data : tree,
+        success : true,
+        message : "successfully fetched the data"
+    })
+
 }
