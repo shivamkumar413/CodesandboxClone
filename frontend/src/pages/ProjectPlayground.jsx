@@ -1,7 +1,9 @@
 import { useParams } from "react-router-dom";
 import { EditorComponent } from "../components/molecules/EditorComponent/EditorComponent";
+import { TreeStructure } from "../components/organisms/TreeStructure/TreeStructure";
 
 function ProjectPlayground (){
+        
 
     const {projectId} = useParams()
 
@@ -9,7 +11,12 @@ function ProjectPlayground (){
         <>
             Playground
             Project id : {projectId}
-            <EditorComponent />
+            <div className="flex">
+                <TreeStructure />
+                <EditorComponent />
+                
+            </div>
+            
         </>
     )
 }

@@ -19,6 +19,7 @@ export const CreateProject = ()=>{
         <>
             <h1>Create Project</h1>
             <button
+                className="bg-blue-200 px-2 py-1"
                 onClick={handleCreateProject}
             >
                 Create Project
