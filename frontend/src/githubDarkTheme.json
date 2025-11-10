@@ -1,0 +1,93 @@
+{
+  "base": "vs-dark",
+  "inherit": true,
+  "rules": [
+    {
+      "token": "",
+      "foreground": "c9d1d9",
+      "background": "0d1117"
+    },
+    {
+      "token": "comment",
+      "foreground": "8b949e",
+      "fontStyle": "italic"
+    },
+    {
+      "token": "keyword",
+      "foreground": "ff7b72"
+    },
+    {
+      "token": "storage",
+      "foreground": "ff7b72"
+    },
+    {
+      "token": "entity.name.class",
+      "foreground": "ffa657"
+    },
+    {
+      "token": "entity.name.function",
+      "foreground": "d2a8ff"
+    },
+    {
+      "token": "variable",
+      "foreground": "c9d1d9"
+    },
+    {
+      "token": "constant.numeric",
+      "foreground": "79c0ff"
+    },
+    {
+      "token": "string",
+      "foreground": "a5d6ff"
+    },
+    {
+      "token": "punctuation.delimiter",
+      "foreground": "484f58"
+    },
+    {
+      "token": "invalid",
+      "foreground": "f85149"
+    },
+    {
+      "token": "meta.tag",
+      "foreground": "7ee787"
+    },
+    {
+      "token": "attribute.name",
+      "foreground": "79c0ff"
+    },
+    {
+      "token": "attribute.value",
+      "foreground": "a5d6ff"
+    },
+    {
+      "token": "regexp",
+      "foreground": "a5d6ff"
+    }
+  ],
+  "colors": {
+    "editor.foreground": "#c9d1d9",
+    "editor.background": "#0d1117",
+    "editor.selectionBackground": "#264f78",
+    "editor.lineHighlightBackground": "#161b22",
+    "editorCursor.foreground": "#c9d1d9",
+    "editorWhitespace.foreground": "#484f58",
+    "editorIndentGuide.background": "#30363d",
+    "editorLineNumber.foreground": "#6e7681",
+    "editorLineNumber.activeForeground": "#c9d1d9",
+    "editorGutter.background": "#0d1117",
+    "editorBracketMatch.border": "#484f58",
+    "editorBracketMatch.background": "#161b22",
+    "editor.foldBackground": "#161b22",
+    "editorWidget.background": "#161b22",
+    "editorWidget.border": "#30363d",
+    "scrollbarSlider.background": "#484f58",
+    "scrollbarSlider.hoverBackground": "#6e7681",
+    "scrollbarSlider.activeBackground": "#7e8c8d",
+    "peekViewEditor.background": "#0d1117",
+    "peekViewEditor.matchHighlightBackground": "#ff8f0080",
+    "peekViewResult.background": "#0d1117",
+    "peekViewResult.matchHighlightBackground": "#ff8f0080",
+    "peekView.border": "#30363d"
+  }
+}

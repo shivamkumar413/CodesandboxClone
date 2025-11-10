@@ -20,7 +20,7 @@ export const TreeStructure = ()=>{
     },[treeStructure,setTreeStructure,projectId])
 
     return(
-        <div className="h-screen bg-gray-900">
+        <div className="h-screen bg-gray-950 border-r border-gray-200">
             <TreeNode fileFolderData={treeStructure} />
         </div>
     )

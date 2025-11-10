@@ -23,3 +23,16 @@ export const getProjectTree = async(projectId)=>{
     }
 
 }
+
+export const getFileData = async(filePath)=>{
+    try {
+        const response = await axiosInstance.post('/api/v1/projects/file',{
+            filePath : filePath,
+        })
+        console.log(response?.data?.response)
+        return response?.data?.response;
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
+}
