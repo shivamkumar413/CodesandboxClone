@@ -27,3 +27,14 @@ export const getProjectTreeService = async (projectId)=>{
     const tree = directoryTree(projectPath);
     return tree;
 }
+
+export const getFileContentService = async({filePath})=>{
+    try {
+        const data = await fs.readFile(`${filePath}`,{encoding : 'utf8'})
+        return data
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
+    
+}

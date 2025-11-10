@@ -1,4 +1,4 @@
-import { createProjectService, getProjectTreeService } from "../service/project.service.js"
+import { createProjectService, getProjectTreeService , getFileContentService} from "../service/project.service.js"
 
 export const createProjectController = async (req,res)=>{
     
@@ -26,4 +26,27 @@ export const getProjectTreeController = async (req,res)=>{
         message : "successfully fetched the data"
     })
 
+}
+
+export const getFileContentController = async (req,res)=>{
+
+    
+    try {
+        const response = await getFileContentService({
+            filePath : req.body.filePath
+        });
+
+        return res.status(200).json({
+            success : true,
+            response : response,
+            message : "Successfully fetched file data"
+        })
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            success : false,
+            message : "Internal server error"
+        })
+    }
 }
