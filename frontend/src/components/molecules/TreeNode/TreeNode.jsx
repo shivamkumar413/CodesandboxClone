@@ -3,11 +3,13 @@ import { useState } from "react"
 import { FileIcon } from "../../atoms/FileIcon/FileIcon"
 import { getFileData } from "../../../apis/projects"
 import { useFileContentStore } from "../../../store/fileContentStore"
+import { useEditorSocketStore } from "../../../store/editorSocketStore"
 
 export const TreeNode = ({fileFolderData})=>{
 
     const [visibility,setVisibility] = useState({})
     const { setFileContent } = useFileContentStore()
+    const {editorSocket} = useEditorSocketStore()
 
     function toggleVisibility(name){
         setVisibility({
@@ -16,11 +18,17 @@ export const TreeNode = ({fileFolderData})=>{
         })
     }
 
-    async function fetchFileData(filePath){
-        const response = await getFileData(filePath)
-        setFileContent(response)
-    }
+    // async function fetchFileData(filePath){
+    //     const response = await getFileData(filePath)
+    //     setFileContent(response)
+    // }
 
+    function handleFileClick(fileFolderData){
+        console.log("Clicked on : ",fileFolderData)
+        editorSocket.emit("readFile",{
+            pathToFileOrFolder : fileFolderData.path
+        })
+    }
 
     return(
         (fileFolderData && 
@@ -42,7 +50,7 @@ export const TreeNode = ({fileFolderData})=>{
                 (
                     <div
                         className="flex pl-5 py-1 text-white items-center hover:cursor-pointer hover:text-blue-300 tranistion"
-                        onClick={()=>fetchFileData(fileFolderData.path)}
+                        onClick={()=>handleFileClick(fileFolderData)}
                     >
                         <FileIcon extension={fileFolderData.name.split(".").pop()} />
                         <span className="ml-2">{fileFolderData.name}</span>

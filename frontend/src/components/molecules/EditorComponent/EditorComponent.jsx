@@ -2,6 +2,7 @@ import { Editor } from "@monaco-editor/react"
 import { useEffect, useState } from "react"
 import gitHubDarkTheme from '../../../githubDarkTheme.json'
 import { useFileContentStore } from "../../../store/fileContentStore"
+import { useEditorSocketStore } from "../../../store/editorSocketStore"
 
 
 
@@ -10,8 +11,11 @@ export const EditorComponent = () => {
     const [editorState,setEditorState] = useState({
         theme : null
     })
-    const {fileContent} = useFileContentStore()
+    const {fileContent,setFileContent} = useFileContentStore()
 
+    const { editorSocket } = useEditorSocketStore()
+
+   
    
     // async function downloadTheme(){
     //     const response = await fetch('/githubDarkTheme.json')
@@ -31,24 +35,27 @@ export const EditorComponent = () => {
          setEditorState({...editorState,theme:gitHubDarkTheme})
 
     },[])
-
+    editorSocket?.on("readFileSuccess",(data)=>{
+        console.log("Read file success : ",data)
+        setFileContent(data.value)
+    })
     return(
         <>
-        {   editorState.theme &&
-            <Editor
-                height={'100vh'}
-                width={'100%'}
-                defaultLanguage="javascript"
-                defaultValue="//Welcome to the playground"
-                // theme="vs-dark"
-                options={{
-                    fontSize : 15,
-                    fontFamily : 'monospace'
-                }}
-                onMount={handleEditorTheme}
-                value={`${fileContent}`}
-            />
-        }
+            {editorState.theme &&
+                <Editor
+                    height={'100vh'}
+                    width={'100%'}
+                    // defaultLanguage="javascript"
+                    defaultValue="//Welcome to the playground"
+                    // theme="vs-dark"
+                    options={{
+                        fontSize : 15,
+                        fontFamily : 'monospace'
+                    }}
+                    onMount={handleEditorTheme}
+                    value={fileContent ? fileContent : "//Welcome to Playground"}
+                />
+            }
 
         </>
     )
