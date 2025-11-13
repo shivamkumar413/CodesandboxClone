@@ -2,10 +2,13 @@ import { create } from "zustand";
 
 export const useFileContentStore = create((set)=>{
     return {
-        fileContent : "",
-        setFileContent : (value)=>{
+        fileContent : null,
+        setFileContent : (value,path)=>{
             set({
-                fileContent : value
+                fileContent : {
+                    data : value,
+                    path : path
+                }
             })
         }
     }

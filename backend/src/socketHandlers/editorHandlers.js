@@ -1,9 +1,15 @@
 import fs from 'fs/promises'
 
 export const handleEditorSocketEvents = (socket)=>{
-    socket.on("writeFile",async (data,pathToFileOrFolder)=>{
+    socket.on("writeFile",async ({data,pathToFileOrFolder})=>{
         try {
+            console.log("data at backend :",data)
+            console.log("Path to file at backend : ",pathToFileOrFolder)
+
+            // const stringData = data.toString()
+            // const stringPath = pathToFileOrFolder.toString()
             const response = await fs.writeFile(pathToFileOrFolder,data);
+            console.log("Write response : ",response)
             socket.emit("writeFileSuccess",{
                 data : "File written successfully"
             })

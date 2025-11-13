@@ -18,12 +18,17 @@ export const CreateProject = ()=>{
     return(
         <>
             <h1>Create Project</h1>
-            <button
-                className="bg-blue-200 px-2 py-1"
+            <div
+                className="border mx-2 bg-gray-800 text-white border-gray-300 px-2 py-1 w-30 h-30 rounded-md flex flex-col items-center hover:cursor-pointer shadow-lg"
                 onClick={handleCreateProject}
-            >
-                Create Project
-            </button>
+            >   
+                <img 
+                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/2300px-React-icon.svg.png" 
+                    alt="" 
+                    className="w-20 h-20 mt-1"
+                />
+                <span className="mt-1">React (JS)</span>
+            </div>
 
             {isPending && 
                 <p> Creating Project... </p>

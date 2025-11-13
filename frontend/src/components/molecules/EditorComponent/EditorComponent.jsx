@@ -11,18 +11,10 @@ export const EditorComponent = () => {
     const [editorState,setEditorState] = useState({
         theme : null
     })
+    const [language,setLanguage] = useState("")
     const {fileContent,setFileContent} = useFileContentStore()
 
     const { editorSocket } = useEditorSocketStore()
-
-   
-   
-    // async function downloadTheme(){
-    //     const response = await fetch('/githubDarkTheme.json')
-    //     const data = await response.json()
-    //     console.log(data)
-    //     setEditorState({...editorState,theme:data})
-    // }
 
     function handleEditorTheme(editor,monaco){
         monaco.editor.defineTheme('github-dark', editorState.theme);
@@ -30,14 +22,30 @@ export const EditorComponent = () => {
         
     }
 
+    function handleChange(value,event){
+        console.log(value)
+        console.log(event)
+        console.log("File path at frontend : ",fileContent?.path)
+        editorSocket.emit("writeFile",{
+            data : value,
+            pathToFileOrFolder : fileContent?.path
+        })
+    }
+
     useEffect(()=>{
-        // downloadTheme()
+
          setEditorState({...editorState,theme:gitHubDarkTheme})
 
     },[])
     editorSocket?.on("readFileSuccess",(data)=>{
         console.log("Read file success : ",data)
-        setFileContent(data.value)
+        setFileContent(data?.value,data?.path)
+        
+        const extension = data?.path?.split(".").pop()
+        console.log(extension)
+        if(extension == 'html') setLanguage("html")
+        if(extension == 'css') setLanguage("css")
+        if(extension == 'js' || extension =='jsx') setLanguage("javascript")
     })
     return(
         <>
@@ -45,7 +53,7 @@ export const EditorComponent = () => {
                 <Editor
                     height={'100vh'}
                     width={'100%'}
-                    // defaultLanguage="javascript"
+                    language={language}
                     defaultValue="//Welcome to the playground"
                     // theme="vs-dark"
                     options={{
@@ -53,7 +61,8 @@ export const EditorComponent = () => {
                         fontFamily : 'monospace'
                     }}
                     onMount={handleEditorTheme}
-                    value={fileContent ? fileContent : "//Welcome to Playground"}
+                    value={fileContent?.data ? fileContent?.data : "//Welcome to Playground"}
+                    onChange={handleChange}
                 />
             }
 
