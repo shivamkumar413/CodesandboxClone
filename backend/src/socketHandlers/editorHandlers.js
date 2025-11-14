@@ -37,7 +37,7 @@ export const handleEditorSocketEvents = (socket)=>{
             })
         } catch (error) {
             console.log("Error creating the file ",error)
-            socket.emit("error",()=>{
+            socket.emit("error",{
                 data : "Error creating the file"
             })
         }
@@ -61,8 +61,9 @@ export const handleEditorSocketEvents = (socket)=>{
 
     socket.on('deleteFile',async ({pathToFileOrFolder})=>{
         try {
+            console.log("Path in delete file", pathToFileOrFolder)
             const response = await fs.unlink(pathToFileOrFolder);
-            socket.on("deleteFileSuccess",{
+            socket.emit("deleteFileSuccess",{
                 data : "Successfully deleted the file"
             })
         } catch (error) {
