@@ -2,26 +2,44 @@ import { useParams } from "react-router-dom"
 import { useTreeStructureStore } from "../../../store/treeStructureStore"
 import { useEffect } from "react"
 import { TreeNode } from "../../molecules/TreeNode/TreeNode"
+import { useContextFileMenuStore } from "../../../store/fileContextMenuStore"
+import { FileContextMenu } from "../../molecules/ContextMenu/FileContextMenu"
 
 
 export const TreeStructure = ()=>{
 
-    const {treeStructure,setTreeStructure} = useTreeStructureStore()
+    const {treeStructure,setTreeStructure,setProjectId} = useTreeStructureStore()
+    const {
+        file,
+        x : fileContextX,
+        y : fileContextY,
+        isOpen : isFileContextOpen} = useContextFileMenuStore()
 
     const {projectId} = useParams()
 
     useEffect(()=>{
         if(treeStructure){
+
             console.log("Tree : ",treeStructure)
         }else{
-            setTreeStructure(projectId)
+            setProjectId(projectId)
+            setTreeStructure()
         }
         
     },[treeStructure,setTreeStructure,projectId])
 
     return(
-        <div className="h-screen bg-gray-950 border-r border-gray-200">
-            <TreeNode fileFolderData={treeStructure} />
-        </div>
+        <>
+        {isFileContextOpen && fileContextX && fileContextY && 
+            <FileContextMenu 
+                x={fileContextX} 
+                y={fileContextY}
+                path={file}
+            />
+        }
+            <div className="h-screen bg-gray-950 border-r border-gray-200">
+                <TreeNode fileFolderData={treeStructure} />
+            </div>
+        </>
     )
 }

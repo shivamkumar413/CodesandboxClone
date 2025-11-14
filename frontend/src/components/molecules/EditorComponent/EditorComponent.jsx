@@ -4,8 +4,6 @@ import gitHubDarkTheme from '../../../githubDarkTheme.json'
 import { useFileContentStore } from "../../../store/fileContentStore"
 import { useEditorSocketStore } from "../../../store/editorSocketStore"
 
-
-
 export const EditorComponent = () => {
 
     const [editorState,setEditorState] = useState({

@@ -1,16 +1,20 @@
 import { ChevronDown, ChevronRight } from "lucide-react"
 import { useState } from "react"
 import { FileIcon } from "../../atoms/FileIcon/FileIcon"
-import { getFileData } from "../../../apis/projects"
-import { useFileContentStore } from "../../../store/fileContentStore"
 import { useEditorSocketStore } from "../../../store/editorSocketStore"
+import { useContextFileMenuStore } from "../../../store/fileContextMenuStore"
 
 export const TreeNode = ({fileFolderData})=>{
 
     const [visibility,setVisibility] = useState({})
-    const { setFileContent } = useFileContentStore()
     const {editorSocket} = useEditorSocketStore()
+    const {
+        setFile,
+        setIsOpen : setFileContextMenuIsOpen,
+        setX : setFileContextMenuX,
+        setY : setFileContextMenuY
 
+    } = useContextFileMenuStore()
     function toggleVisibility(name){
         setVisibility({
             ...visibility,
@@ -30,6 +34,14 @@ export const TreeNode = ({fileFolderData})=>{
         })
     }
 
+    function handleContextMenu(e,fileFolderData){
+        e.preventDefault()
+        console.log(e)
+        setFile(fileFolderData?.path)
+        setFileContextMenuX(e.clientX)
+        setFileContextMenuY(e.clientY)
+        setFileContextMenuIsOpen(true)
+    }
     return(
         (fileFolderData && 
             
@@ -51,6 +63,7 @@ export const TreeNode = ({fileFolderData})=>{
                     <div
                         className="flex pl-5 py-1 text-white items-center hover:cursor-pointer hover:text-blue-300 tranistion"
                         onClick={()=>handleFileClick(fileFolderData)}
+                        onContextMenu={(e)=>handleContextMenu(e,fileFolderData)}
                     >
                         <FileIcon extension={fileFolderData.name.split(".").pop()} />
                         <span className="ml-2">{fileFolderData.name}</span>

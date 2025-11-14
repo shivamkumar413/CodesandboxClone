@@ -3,15 +3,23 @@ import { create } from "zustand";
 import { getProjectTree } from "../apis/projects";
 
 
-export const useTreeStructureStore = create((set)=>{
+export const useTreeStructureStore = create((set,get)=>{
     const queryClient  = new QueryClient()
 
     return {
+        projectId : null,
         treeStructure : null,
-        setTreeStructure : async (projectId) =>{
+        setProjectId : (incomingProjectId)=>{
+            set({
+                projectId : incomingProjectId
+            })
+        },
+        setTreeStructure : async () =>{
+            const id = get().projectId
+            console.log("Id at tree store",id)
             const data  = await queryClient.fetchQuery({
-                queryKey : [`projectTree-${projectId}`],
-                queryFn : () => getProjectTree(projectId)
+                queryKey : [`projectTree-${id}`],
+                queryFn : () => getProjectTree(id)
             })
 
             console.log(data);
