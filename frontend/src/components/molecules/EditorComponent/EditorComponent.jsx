@@ -6,6 +6,7 @@ import { useEditorSocketStore } from "../../../store/editorSocketStore"
 
 export const EditorComponent = () => {
 
+    let timerId;
     const [editorState,setEditorState] = useState({
         theme : null
     })
@@ -21,13 +22,16 @@ export const EditorComponent = () => {
     }
 
     function handleChange(value,event){
-        console.log(value)
-        console.log(event)
-        console.log("File path at frontend : ",fileContent?.path)
-        editorSocket.emit("writeFile",{
-            data : value,
-            pathToFileOrFolder : fileContent?.path
-        })
+        
+        if(timerId) clearTimeout(timerId)
+        timerId = setTimeout(()=>{
+            console.log(value)
+            editorSocket.emit("writeFile",{
+                data : value,
+                pathToFileOrFolder : fileContent?.path
+            })
+        },2000)
+        
     }
 
     useEffect(()=>{
