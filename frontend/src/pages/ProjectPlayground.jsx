@@ -4,24 +4,27 @@ import { TreeStructure } from "../components/organisms/TreeStructure/TreeStructu
 import { useEditorSocketStore } from "../store/editorSocketStore";
 import { useEffect } from "react";
 import {io} from 'socket.io-client'
-import { useTreeStructureStore } from "../store/treeStructureStore";
+
 
 function ProjectPlayground (){
         
 
     const {projectId : projectIdFromUrl} = useParams()
     const { setEditorSocket } = useEditorSocketStore()
-    const { setProjectId } = useTreeStructureStore()
+
 
     
     useEffect(()=>{
-        const editorSocketConnection = io(`${import.meta.env.VITE_BACKEND_URL}/editor`,{
-            query : {
-                projectId : projectIdFromUrl,
-            }
-        })
-        
-        setEditorSocket(editorSocketConnection)
+        if(projectIdFromUrl){
+            
+            const editorSocketConnection = io(`${import.meta.env.VITE_BACKEND_URL}/editor`,{
+                query : {
+                    projectId : projectIdFromUrl,
+                }
+            })
+            
+            setEditorSocket(editorSocketConnection)
+        }
     },[setEditorSocket])
 
     return (

@@ -4,6 +4,8 @@ import { useEffect } from "react"
 import { TreeNode } from "../../molecules/TreeNode/TreeNode"
 import { useContextFileMenuStore } from "../../../store/fileContextMenuStore"
 import { FileContextMenu } from "../../molecules/ContextMenu/FileContextMenu"
+import { useContextFolderMenuStore } from "../../../store/folderContextMenuStore"
+import { FolderContextMenu } from "../../molecules/ContextMenu/FolderContextMenu"
 
 
 export const TreeStructure = ()=>{
@@ -15,6 +17,13 @@ export const TreeStructure = ()=>{
         y : fileContextY,
         isOpen : isFileContextOpen} = useContextFileMenuStore()
 
+    const { 
+        folder ,
+        x : folderContextX,
+        y : folderContextY,
+        isOpen : isFolderContextOpen
+    } = useContextFolderMenuStore()
+     
     const {projectId} = useParams()
 
     useEffect(()=>{
@@ -35,6 +44,14 @@ export const TreeStructure = ()=>{
                 x={fileContextX} 
                 y={fileContextY}
                 path={file}
+            />
+        }
+        {
+            isFolderContextOpen && folderContextX && folderContextY && 
+            <FolderContextMenu
+                x={folderContextX}
+                y={folderContextY}
+                path={folder}
             />
         }
             <div className="h-screen bg-gray-950 border-r border-gray-200">

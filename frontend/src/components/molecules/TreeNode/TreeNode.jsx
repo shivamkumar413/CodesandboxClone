@@ -3,6 +3,7 @@ import { useState } from "react"
 import { FileIcon } from "../../atoms/FileIcon/FileIcon"
 import { useEditorSocketStore } from "../../../store/editorSocketStore"
 import { useContextFileMenuStore } from "../../../store/fileContextMenuStore"
+import { useContextFolderMenuStore } from "../../../store/folderContextMenuStore"
 
 export const TreeNode = ({fileFolderData})=>{
 
@@ -15,6 +16,14 @@ export const TreeNode = ({fileFolderData})=>{
         setY : setFileContextMenuY
 
     } = useContextFileMenuStore()
+
+    const {
+        setFolder,
+        setIsOpen : setFolderContextMenuIsOpen,
+        setX : setFolderContextMenuX,
+        setY : setFolderContextMenuY
+    } = useContextFolderMenuStore()
+
     function toggleVisibility(name){
         setVisibility({
             ...visibility,
@@ -42,6 +51,19 @@ export const TreeNode = ({fileFolderData})=>{
         setFileContextMenuY(e.clientY)
         setFileContextMenuIsOpen(true)
     }
+
+    function handleFolderContextMenu(e,fileFolderData){
+        e.preventDefault()
+        console.log("Folder right click");
+        console.log(fileFolderData?.path);
+        
+        setFolder(fileFolderData?.path)
+        setFolderContextMenuX(e.clientX)
+        setFolderContextMenuY(e.clientY)
+        setFolderContextMenuIsOpen(true)
+        
+    }
+
     return(
         (fileFolderData && 
             
@@ -53,6 +75,7 @@ export const TreeNode = ({fileFolderData})=>{
                     <button 
                         className="flex w-full cursor-pointer text-white px-3 py-1 items-center hover:text-blue-300 tranisiton"
                         onClick={()=>toggleVisibility(fileFolderData.name)}
+                        onContextMenu={(e)=>handleFolderContextMenu(e,fileFolderData)}
                     >
                         {visibility[fileFolderData.name] ?  <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4"/>}
                         <span className="ml-2">{fileFolderData.name}</span>

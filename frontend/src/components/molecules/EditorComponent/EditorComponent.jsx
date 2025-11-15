@@ -3,6 +3,7 @@ import { useEffect, useState } from "react"
 import gitHubDarkTheme from '../../../githubDarkTheme.json'
 import { useFileContentStore } from "../../../store/fileContentStore"
 import { useEditorSocketStore } from "../../../store/editorSocketStore"
+import { editorLanguage } from "../../../utils/editorLanguage.utils"
 
 export const EditorComponent = () => {
 
@@ -10,8 +11,7 @@ export const EditorComponent = () => {
     const [editorState,setEditorState] = useState({
         theme : null
     })
-    const [language,setLanguage] = useState("")
-    const {fileContent,setFileContent} = useFileContentStore()
+    const {fileContent} = useFileContentStore()
 
     const { editorSocket } = useEditorSocketStore()
 
@@ -39,23 +39,15 @@ export const EditorComponent = () => {
          setEditorState({...editorState,theme:gitHubDarkTheme})
 
     },[])
-    editorSocket?.on("readFileSuccess",(data)=>{
-        console.log("Read file success : ",data)
-        setFileContent(data?.value,data?.path)
-        
-        const extension = data?.path?.split(".").pop()
-        console.log(extension)
-        if(extension == 'html') setLanguage("html")
-        if(extension == 'css') setLanguage("css")
-        if(extension == 'js' || extension =='jsx') setLanguage("javascript")
-    })
+
+    // })
     return(
         <>
             {editorState.theme &&
                 <Editor
                     height={'100vh'}
                     width={'100%'}
-                    language={language}
+                    language={editorLanguage(fileContent?.extension)}
                     defaultValue="//Welcome to the playground"
                     // theme="vs-dark"
                     options={{

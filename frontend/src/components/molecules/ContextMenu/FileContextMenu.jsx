@@ -1,6 +1,5 @@
 import { useEditorSocketStore } from "../../../store/editorSocketStore";
 import { useContextFileMenuStore } from "../../../store/fileContextMenuStore";
-import { useTreeStructureStore } from "../../../store/treeStructureStore";
 
 export const FileContextMenu = ({
     x,
@@ -9,7 +8,7 @@ export const FileContextMenu = ({
 })=>{
     const {setIsOpen} = useContextFileMenuStore()
     const { editorSocket } = useEditorSocketStore()
-    const { setTreeStructure } = useTreeStructureStore()
+
 
     function handleFileDelete(e){
         e.preventDefault();
@@ -18,12 +17,6 @@ export const FileContextMenu = ({
             pathToFileOrFolder : path
         })
     }
-
-    editorSocket?.on("deleteFileSuccess",()=>{
-        console.log("Inside file success register wemit")
-        setTreeStructure()
-    })
-    
     
     return(
         <div 
