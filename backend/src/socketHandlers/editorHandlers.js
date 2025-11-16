@@ -74,15 +74,29 @@ export const handleEditorSocketEvents = (socket)=>{
         }
     })
 
+    socket.on('renameFile',async ({oldPath,newPath})=>{
+        try {
+            const response = await fs.rename(oldPath,newPath)
+            socket.emit("renameFileSuccess",{
+                data : "Successfully renamed the file"
+            })
+        } catch (error) {
+            console.log("Error renaming the file ",error)
+            socket.emit("error",{
+                data : "Error renaming the file"
+            })
+        }
+    })
+
     socket.on("createFolder",async ({pathToFileOrFolder})=>{
         try {
             const response = await fs.mkdir(pathToFileOrFolder)
-            socket.on("createFolderSuccess",{
+            socket.emit("createFolderSuccess",{
                 data : "Folder created successfully"
             })
         } catch (error) {
             console.log("Error creating folder ",error);
-            socket.on("error",{
+            socket.emit("error",{
                 message : "Error creating the folder"
             })
         }
@@ -91,12 +105,12 @@ export const handleEditorSocketEvents = (socket)=>{
     socket.on("deleteFolder",async ({pathToFileOrFolder})=>{
         try {
             const response = await fs.rmdir(pathToFileOrFolder,{recursive : true})
-            socket.on("deleteFolderSuccess",{
+            socket.emit("deleteFolderSuccess",{
                 data : "Deleted folder successfully"
             })
         } catch (error) {
             console.log("Error deleting the folder ",error)
-            socket.on("error",{
+            socket.emit("error",{
                 message : "Error deleting the folder"
             })
         }
