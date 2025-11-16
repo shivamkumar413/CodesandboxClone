@@ -6,9 +6,18 @@ export const FileContextMenu = ({
     y,
     path,
 })=>{
-    const {setIsOpen} = useContextFileMenuStore()
+    const { setIsOpen,setIsInput,isInput } = useContextFileMenuStore()
     const { editorSocket } = useEditorSocketStore()
 
+    function handleInputVisibility(){
+        console.log("Rename clicked")
+        const name = path.split("\\").pop()
+        console.log(name)
+        setIsInput({
+            ...isInput,
+            [name] : !isInput[name]
+        })
+    }
 
     function handleFileDelete(e){
         e.preventDefault();
@@ -37,6 +46,7 @@ export const FileContextMenu = ({
             </button>
             <button
                 className="px-2 py-1 hover:bg-gray-600 w-full"
+                onClick={()=>handleInputVisibility()}
             >
                 Rename File
             </button>

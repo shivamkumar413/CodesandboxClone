@@ -9,7 +9,10 @@ export const TreeNode = ({fileFolderData})=>{
 
     const [visibility,setVisibility] = useState({})
     const {editorSocket} = useEditorSocketStore()
+    const [inputValue,setInputValue] = useState(fileFolderData?.name)
     const {
+        isInput,
+        setIsInput,
         setFile,
         setIsOpen : setFileContextMenuIsOpen,
         setX : setFileContextMenuX,
@@ -64,13 +67,32 @@ export const TreeNode = ({fileFolderData})=>{
         
     }
 
+    function handleEnterClick(fileFolderData){
+        const oldName = fileFolderData.name
+        const newName = inputValue
+        const pathString = fileFolderData?.path
+        const pathArray = pathString.split('\\')
+        pathArray.pop()
+        pathArray.push(newName)
+        const modifiedPathString = pathArray.join("\\")
+
+        editorSocket.emit("renameFile",{
+            oldPath : pathString,
+            newPath : modifiedPathString,
+        })
+
+        setIsInput({
+            ...isInput,
+            [newName] : !isInput[oldName]
+        })
+    }
+
     return(
-        (fileFolderData && 
-            
-            
+        <>
+        {fileFolderData && 
             
             <div className="pl-3 border-l border-gray-300">
-                {fileFolderData.children ? (
+                {fileFolderData.children ? 
 
                     <button 
                         className="flex w-full cursor-pointer text-white px-3 py-1 items-center hover:text-blue-300 tranisiton"
@@ -80,18 +102,39 @@ export const TreeNode = ({fileFolderData})=>{
                         {visibility[fileFolderData.name] ?  <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4"/>}
                         <span className="ml-2">{fileFolderData.name}</span>
                     </button>
-                )    
+                 
                     : 
-                (
-                    <div
-                        className="flex pl-5 py-1 text-white items-center hover:cursor-pointer hover:text-blue-300 tranistion"
-                        onClick={()=>handleFileClick(fileFolderData)}
-                        onContextMenu={(e)=>handleContextMenu(e,fileFolderData)}
-                    >
-                        <FileIcon extension={fileFolderData.name.split(".").pop()} />
-                        <span className="ml-2">{fileFolderData.name}</span>
-                    </div>
-                )}
+                    (isInput[fileFolderData?.name] ? 
+
+                        <input 
+                            type="text"
+                            className="bg-white"
+                            value={inputValue}
+                            onChange={(e)=>{
+                                console.log(e)
+                                console.log(e.target.value)
+                                setInputValue(e.target.value)
+                            }}
+                            onKeyDown={(e)=>{
+                                if(e.key == 'Enter'){
+                                    console.log("Enter clicked")
+                                    handleEnterClick(fileFolderData)
+                                }
+                            }}
+                        /> 
+                            : 
+
+                        <div
+                            className="flex pl-5 py-1 text-white items-center hover:cursor-pointer hover:text-blue-300 tranistion"
+                            onClick={()=>handleFileClick(fileFolderData)}
+                            onContextMenu={(e)=>handleContextMenu(e,fileFolderData)}
+                        >
+                            <FileIcon extension={fileFolderData.name.split(".").pop()} />
+                            <span className="ml-2">{fileFolderData.name}</span>
+                        </div>
+                    ) 
+                    
+                }
 
                 {visibility[fileFolderData.name] && fileFolderData.children && (
                     
@@ -112,7 +155,7 @@ export const TreeNode = ({fileFolderData})=>{
                 
             
             
-        )
-        
+            }
+        </>
     )
 }

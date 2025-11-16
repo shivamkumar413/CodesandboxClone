@@ -6,6 +6,7 @@ export const useContextFileMenuStore = create((set)=>{
         y : null,
         isOpen : false,
         file : null,
+        isInput : {},
         setX : (incomingX)=>{
             set({
                 x : incomingX
@@ -24,6 +25,11 @@ export const useContextFileMenuStore = create((set)=>{
         setFile : (incomingFile)=>{
             set({
                 file : incomingFile
+            })
+        },
+        setIsInput : (incomingIsInput)=>{
+            set({
+                isInput : incomingIsInput
             })
         }
     }

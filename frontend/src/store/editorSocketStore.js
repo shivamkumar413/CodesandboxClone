@@ -23,7 +23,10 @@ export const useEditorSocketStore = create ((set)=>({
             incomingSocket?.on("deleteFolderSuccess",()=>{
                 treeStructureSetter()
             })
-
+            
+            incomingSocket?.on("renameFileSuccess",()=>{
+                treeStructureSetter()
+            })
             set({
                 editorSocket : incomingSocket
             })
