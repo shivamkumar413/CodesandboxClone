@@ -10,7 +10,7 @@ export const FileIcon = ({extension})=>{
             {extension==='html' && <FaHtml5 className="text-orange-400"/>}
             {extension==='css' && <LuHash className="text-sky-400"/>}
             {extension === 'json' && <VscJson className="text-yellow-300"/> }
-            {extension === 'gitignore' && <FaGitAlt />}
+            {extension === 'gitignore' && <FaGitAlt className="text-orange-500"/>}
         
         </>
     )

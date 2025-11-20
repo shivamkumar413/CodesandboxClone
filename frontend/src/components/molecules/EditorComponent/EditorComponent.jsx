@@ -45,7 +45,7 @@ export const EditorComponent = () => {
         <>
             {editorState.theme &&
                 <Editor
-                    height={'100vh'}
+                    height={'70vh'}
                     width={'100%'}
                     language={editorLanguage(fileContent?.extension)}
                     defaultValue="//Welcome to the playground"

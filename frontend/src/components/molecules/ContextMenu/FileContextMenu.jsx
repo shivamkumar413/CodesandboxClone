@@ -32,20 +32,20 @@ export const FileContextMenu = ({
             onMouseLeave={()=>{
                 setIsOpen(false)
             }}
-            className={`fixed bg-gray-400 w-[120px] z-5 p-1`}
+            className={`fixed bg-gray-600 w-[120px] z-5 p-1 rounded-md`}
             style={{
                 left : x,
                 top :  y,
             }}
         >
             <button
-                className="px-2 py-1 hover:bg-gray-600 w-full"
+                className="px-2 py-1 hover:bg-gray-500 text-white w-full hover:cursor-pointer"
                 onClick={handleFileDelete}    
             >
                 Delete File
             </button>
             <button
-                className="px-2 py-1 hover:bg-gray-600 w-full"
+                className="px-2 py-1 hover:bg-gray-500 text-white w-full hover:cursor-pointer"
                 onClick={()=>handleInputVisibility()}
             >
                 Rename File

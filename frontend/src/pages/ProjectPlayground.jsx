@@ -4,6 +4,7 @@ import { TreeStructure } from "../components/organisms/TreeStructure/TreeStructu
 import { useEditorSocketStore } from "../store/editorSocketStore";
 import { useEffect } from "react";
 import {io} from 'socket.io-client'
+import { BrowserTerminal } from "../components/molecules/BrowserTerminal/BrowserTermial";
 
 
 function ProjectPlayground (){
@@ -33,7 +34,11 @@ function ProjectPlayground (){
             Project id : {projectIdFromUrl}
             <div className="flex">
                 <TreeStructure projectId={projectIdFromUrl} />
-                <EditorComponent />
+                <div>
+                    <EditorComponent />
+                    <BrowserTerminal />
+                </div>
+                
                 
             </div>
             

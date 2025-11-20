@@ -34,11 +34,6 @@ export const TreeNode = ({fileFolderData})=>{
         })
     }
 
-    // async function fetchFileData(filePath){
-    //     const response = await getFileData(filePath)
-    //     setFileContent(response)
-    // }
-
     function handleFileClick(fileFolderData){
         console.log("Clicked on : ",fileFolderData)
         editorSocket.emit("readFile",{
@@ -105,23 +100,25 @@ export const TreeNode = ({fileFolderData})=>{
                  
                     : 
                     (isInput[fileFolderData?.name] ? 
-
-                        <input 
-                            type="text"
-                            className="bg-white"
-                            value={inputValue}
-                            onChange={(e)=>{
-                                console.log(e)
-                                console.log(e.target.value)
-                                setInputValue(e.target.value)
-                            }}
-                            onKeyDown={(e)=>{
-                                if(e.key == 'Enter'){
-                                    console.log("Enter clicked")
-                                    handleEnterClick(fileFolderData)
-                                }
-                            }}
-                        /> 
+                        <div className="flex items-center ml-5">
+                            <FileIcon extension={fileFolderData.name.split(".").pop()} />
+                            <input 
+                                type="text"
+                                className="ml-2  bg-gray-800 text-white outline-none py-1"
+                                value={inputValue}
+                                onChange={(e)=>{
+                                    console.log(e)
+                                    console.log(e.target.value)
+                                    setInputValue(e.target.value)
+                                }}
+                                onKeyDown={(e)=>{
+                                    if(e.key == 'Enter'){
+                                        console.log("Enter clicked")
+                                        handleEnterClick(fileFolderData)
+                                    }
+                                }}
+                            /> 
+                        </div>
                             : 
 
                         <div
@@ -151,10 +148,6 @@ export const TreeNode = ({fileFolderData})=>{
             
             </div>
 
-            
-                
-            
-            
             }
         </>
     )
