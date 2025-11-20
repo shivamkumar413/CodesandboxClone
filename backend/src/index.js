@@ -6,6 +6,7 @@ import { PORT } from './config/server.config.js'
 import apiRouter from './routes/index.js'
 import chokidar from 'chokidar'
 import { handleEditorSocketEvents } from './socketHandlers/editorHandlers.js'
+import { handleContainerCreate } from './containers/handleContainerCreation.js'
 
 const app = express()
 const server = createServer(app)
@@ -40,9 +41,9 @@ const editorNamespace = io.of('/editor')
 editorNamespace.on('connection',(socket)=>{
     console.log("Editor connected");
 
-    console.log("Socket query log : ",socket.handshake.query)
+    // console.log("Socket query log : ",socket.handshake.query)
     let projectId = socket.handshake.query.projectId
-    console.log("Project id : ",projectId)
+    // console.log("Project id : ",projectId)
 
     if(projectId){
         var watcher = chokidar.watch(`projects/${projectId}`,{
@@ -64,9 +65,27 @@ editorNamespace.on('connection',(socket)=>{
 
     socket.on("disconnect",async ()=>{
         await watcher.close();
-        console.log("Editor connected")
+        console.log("Editor disconnected")
     })
 
+})
+
+const terminalNamespace = io.of('/terminal')
+
+terminalNamespace.on('connection',(socket)=>{
+    console.log("Terminal connected");
+    let projectId = socket.handshake.query.projectId
+    socket.on("shell-input",(data)=>{
+        console.log(data)
+        terminalNamespace.emit("shell-output",data)
+    })
+
+    socket.on("disconnect",()=>{
+        console.log("Terminal disconnected")
+    })
+
+    handleContainerCreate(projectId,socket)
+    
 })
 
 server.listen(PORT,()=>{
