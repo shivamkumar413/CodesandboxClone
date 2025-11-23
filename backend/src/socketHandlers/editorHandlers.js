@@ -1,4 +1,5 @@
 import fs from 'fs/promises'
+import fsSync from 'fs'
 
 export const handleEditorSocketEvents = (socket)=>{
     socket.on("writeFile",async ({data,pathToFileOrFolder})=>{
@@ -76,7 +77,12 @@ export const handleEditorSocketEvents = (socket)=>{
 
     socket.on('renameFile',async ({oldPath,newPath})=>{
         try {
-            const response = await fs.rename(oldPath,newPath)
+            if((await fs.stat(oldPath)).isDirectory()){
+                await fs.cp(oldPath,newPath,{recursive:true});
+                await fs.rm(oldPath,{recursive : true})
+            }else{
+                const response = await fs.rename(oldPath,newPath)
+            }
             socket.emit("renameFileSuccess",{
                 data : "Successfully renamed the file"
             })
@@ -115,4 +121,5 @@ export const handleEditorSocketEvents = (socket)=>{
             })
         }
     })
+    
 }   
