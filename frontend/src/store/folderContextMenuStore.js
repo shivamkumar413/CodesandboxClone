@@ -6,6 +6,7 @@ export const useContextFolderMenuStore = create((set)=>{
         y : null,
         isOpen : false,
         folder : null,
+        isInputFolder : {},
         setX : (incomingX)=>{
             set({
                 x : incomingX
@@ -24,6 +25,11 @@ export const useContextFolderMenuStore = create((set)=>{
         setFolder : (incomingFile)=>{
             set({
                 folder : incomingFile
+            })
+        },
+        setIsInputFolder : (incomingFolder)=>{
+            set({
+                isInputFolder : incomingFolder
             })
         }
     }

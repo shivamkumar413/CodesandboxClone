@@ -21,6 +21,8 @@ export const TreeNode = ({fileFolderData})=>{
     } = useContextFileMenuStore()
 
     const {
+        isInputFolder,
+        setIsInputFolder,
         setFolder,
         setIsOpen : setFolderContextMenuIsOpen,
         setX : setFolderContextMenuX,
@@ -76,10 +78,18 @@ export const TreeNode = ({fileFolderData})=>{
             newPath : modifiedPathString,
         })
 
-        setIsInput({
-            ...isInput,
-            [newName] : !isInput[oldName]
-        })
+        if(fileFolderData.children){
+            setIsInputFolder({
+                ...isInputFolder,
+                [newName] : !isInputFolder[oldName]
+            })
+        }else{
+            setIsInput({
+                ...isInput,
+                [newName] : !isInput[oldName]
+            })
+        }
+        
     }
 
     return(
@@ -88,17 +98,37 @@ export const TreeNode = ({fileFolderData})=>{
             
             <div className="pl-3 border-l border-gray-300">
                 {fileFolderData.children ? 
+                    (
+                        isInputFolder[fileFolderData?.name] ?
+                            <input 
+                                type="text"
+                                className="ml-7 px-2 bg-gray-800 text-white outline-none py-1"
+                                value={inputValue}
+                                onChange={(e)=>{
+                                    setInputValue(e.target.value)
+                                }}
+                                onKeyDown={(e)=>{
+                                    if(e.key == 'Enter'){
+                                        console.log("Enter clicked")
+                                        handleEnterClick(fileFolderData)
+                                    }
+                                }}
+                            />
+                            
+                            :
 
-                    <button 
-                        className="flex w-full cursor-pointer text-white px-3 py-1 items-center hover:text-blue-300 tranisiton"
-                        onClick={()=>toggleVisibility(fileFolderData.name)}
-                        onContextMenu={(e)=>handleFolderContextMenu(e,fileFolderData)}
-                    >
-                        {visibility[fileFolderData.name] ?  <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4"/>}
-                        <span className="ml-2">{fileFolderData.name}</span>
-                    </button>
-                 
+                            <button 
+                                className="flex w-full cursor-pointer text-white px-3 py-1 items-center hover:text-blue-300 tranisiton"
+                                onClick={()=>toggleVisibility(fileFolderData.name)}
+                                onContextMenu={(e)=>handleFolderContextMenu(e,fileFolderData)}
+                            >
+                                {visibility[fileFolderData.name] ?  <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4"/>}
+                                <span className="ml-2">{fileFolderData.name}</span>
+                            </button>
+                    )
+                    
                     : 
+
                     (isInput[fileFolderData?.name] ? 
                         <div className="flex items-center ml-5">
                             <FileIcon extension={fileFolderData.name.split(".").pop()} />
@@ -119,6 +149,7 @@ export const TreeNode = ({fileFolderData})=>{
                                 }}
                             /> 
                         </div>
+
                             : 
 
                         <div

@@ -4,12 +4,23 @@ import { useContextFolderMenuStore } from "../../../store/folderContextMenuStore
 export const FolderContextMenu = ({x,y,path})=>{
 
     const {editorSocket} = useEditorSocketStore()
-    const {setIsOpen} = useContextFolderMenuStore()
+    const {setIsOpen,isInputFolder,setIsInputFolder} = useContextFolderMenuStore()
+
     function handleFolderDelete(e){
         e.preventDefault()
         console.log("Deleting folder at ",path);
         editorSocket?.emit("deleteFolder",{
             pathToFileOrFolder : path
+        })
+    }
+
+    function handleFolderRename(){
+        console.log("Clicked on folder for renaming");
+        const name = path.split("\\").pop()
+        console.log(name)
+        setIsInputFolder({
+            ...isInputFolder,
+            [name] : !isInputFolder[name]
         })
     }
     return(
@@ -42,6 +53,7 @@ export const FolderContextMenu = ({x,y,path})=>{
             </button>
             <button
                 className="text-white px-2 py-1 hover:bg-gray-500 w-full hover:cursor-pointer"
+                onClick={()=>handleFolderRename()}
             >
                 Rename
             </button>
