@@ -4,12 +4,15 @@ import { FileIcon } from "../../atoms/FileIcon/FileIcon"
 import { useEditorSocketStore } from "../../../store/editorSocketStore"
 import { useContextFileMenuStore } from "../../../store/fileContextMenuStore"
 import { useContextFolderMenuStore } from "../../../store/folderContextMenuStore"
+import { useCreateFileFolderStore } from "../../../store/createFileFolderStore"
 
 export const TreeNode = ({fileFolderData})=>{
 
     const [visibility,setVisibility] = useState({})
     const {editorSocket} = useEditorSocketStore()
     const [inputValue,setInputValue] = useState(fileFolderData?.name)
+    const [newFileName,setNewFileName] = useState("")
+    const {isCreateFileOpen,setIsCreateFileOpen} = useCreateFileFolderStore()
     const {
         isInput,
         setIsInput,
@@ -92,6 +95,29 @@ export const TreeNode = ({fileFolderData})=>{
         
     }
 
+    function handleCreateNewFile(e,fileFolderData){
+        console.log("Clicked entered on create new file")
+        const oldName = fileFolderData.name
+        const pathString = fileFolderData?.path
+        console.log(pathString)
+
+        const pathArray = pathString.split("\\")
+        console.log(pathArray)
+        pathArray.push(newFileName)
+
+        const modifiedPathString = pathArray.join("\\")
+        console.log(modifiedPathString)
+
+        editorSocket.emit("createFile",{
+            pathToFileOrFolder : modifiedPathString,
+        })
+        setNewFileName("")
+        setIsCreateFileOpen({
+            ...isCreateFileOpen,
+            [oldName] : !isCreateFileOpen[oldName]
+        })
+    }
+
     return(
         <>
         {fileFolderData && 
@@ -114,17 +140,38 @@ export const TreeNode = ({fileFolderData})=>{
                                     }
                                 }}
                             />
-                            
+
                             :
 
-                            <button 
-                                className="flex w-full cursor-pointer text-white px-3 py-1 items-center hover:text-blue-300 tranisiton"
-                                onClick={()=>toggleVisibility(fileFolderData.name)}
-                                onContextMenu={(e)=>handleFolderContextMenu(e,fileFolderData)}
-                            >
-                                {visibility[fileFolderData.name] ?  <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4"/>}
-                                <span className="ml-2">{fileFolderData.name}</span>
-                            </button>
+                            <>
+                                <button 
+                                    className="flex w-full cursor-pointer text-white px-3 py-1 items-center hover:text-blue-300 tranisiton"
+                                    onClick={()=>toggleVisibility(fileFolderData.name)}
+                                    onContextMenu={(e)=>handleFolderContextMenu(e,fileFolderData)}
+                                >
+                                    {visibility[fileFolderData.name] ?  <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4"/>}
+                                    <span className="ml-2">{fileFolderData.name}</span>
+                                </button>
+
+                                {
+                                    isCreateFileOpen[fileFolderData?.name] &&
+                                        <input 
+                                            type="text" 
+                                            className="bg-gray-800 ml-8 w-full outline-none text-white px-2"
+                                            value={newFileName}
+                                            onChange={(e)=>setNewFileName(e.target.value)}
+                                            onKeyDown={
+                                                (e)=>{
+                                                    if(e.key === 'Enter'){
+                                                        handleCreateNewFile(e,fileFolderData)
+                                                    }
+                                                    
+                                                }
+                                            }
+                                        />
+                                }
+                            </>
+                            
                     )
                     
                     : 

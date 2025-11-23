@@ -27,6 +27,9 @@ export const useEditorSocketStore = create ((set)=>({
             incomingSocket?.on("renameFileSuccess",()=>{
                 treeStructureSetter()
             })
+            incomingSocket?.on("createFileSuccess",()=>{
+                treeStructureSetter()
+            })
             set({
                 editorSocket : incomingSocket
             })

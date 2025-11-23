@@ -1,3 +1,4 @@
+import { useCreateFileFolderStore } from "../../../store/createFileFolderStore"
 import { useEditorSocketStore } from "../../../store/editorSocketStore"
 import { useContextFolderMenuStore } from "../../../store/folderContextMenuStore"
 
@@ -5,6 +6,7 @@ export const FolderContextMenu = ({x,y,path})=>{
 
     const {editorSocket} = useEditorSocketStore()
     const {setIsOpen,isInputFolder,setIsInputFolder} = useContextFolderMenuStore()
+    const {isCreateFileOpen,setIsCreateFileOpen} = useCreateFileFolderStore()
 
     function handleFolderDelete(e){
         e.preventDefault()
@@ -23,6 +25,15 @@ export const FolderContextMenu = ({x,y,path})=>{
             [name] : !isInputFolder[name]
         })
     }
+
+    function handleCreateFileClick(){
+        const name = path.split("\\").pop()
+        setIsCreateFileOpen({
+            ...isCreateFileOpen,
+            [name] : !isCreateFileOpen[name]
+        })
+    }
+
     return(
         <div 
             onMouseLeave={()=>{
@@ -35,7 +46,8 @@ export const FolderContextMenu = ({x,y,path})=>{
             }}
         >
             <button
-                className="text-white px-2 py-1 hover:bg-gray-500 w-full hover:cursor-pointer"    
+                className="text-white px-2 py-1 hover:bg-gray-500 w-full hover:cursor-pointer"
+                onClick={handleCreateFileClick}    
             >
                 New File
             </button>
