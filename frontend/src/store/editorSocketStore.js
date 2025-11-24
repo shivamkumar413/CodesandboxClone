@@ -30,6 +30,9 @@ export const useEditorSocketStore = create ((set)=>({
             incomingSocket?.on("createFileSuccess",()=>{
                 treeStructureSetter()
             })
+            incomingSocket?.on("createFolderSuccess",()=>{
+                treeStructureSetter()
+            })
             set({
                 editorSocket : incomingSocket
             })

@@ -12,7 +12,7 @@ export const TreeNode = ({fileFolderData})=>{
     const {editorSocket} = useEditorSocketStore()
     const [inputValue,setInputValue] = useState(fileFolderData?.name)
     const [newFileName,setNewFileName] = useState("")
-    const {isCreateFileOpen,setIsCreateFileOpen} = useCreateFileFolderStore()
+    const {isCreateFileOpen,setIsCreateFileOpen,isCreateFolderOpen,setIsCreateFolderOpen} = useCreateFileFolderStore()
     const {
         isInput,
         setIsInput,
@@ -118,6 +118,27 @@ export const TreeNode = ({fileFolderData})=>{
         })
     }
 
+    function handleCreateNewFolder(fileFolderData){
+        const oldName = fileFolderData?.name
+        const pathString = fileFolderData?.path
+
+        const pathArray = pathString.split("\\")
+        pathArray.push(newFileName)
+
+        const modifiedPathString = pathArray.join("\\")
+        console.log(modifiedPathString);
+
+        editorSocket.emit("createFolder",{
+            pathToFileOrFolder : modifiedPathString
+        })
+
+        setIsCreateFolderOpen({
+            ...isCreateFolderOpen,
+            [oldName] : !isCreateFolderOpen[oldName]
+        })
+        
+    }
+
     return(
         <>
         {fileFolderData && 
@@ -166,6 +187,23 @@ export const TreeNode = ({fileFolderData})=>{
                                                         handleCreateNewFile(e,fileFolderData)
                                                     }
                                                     
+                                                }
+                                            }
+                                        />
+                                }
+
+                                {
+                                    isCreateFolderOpen[fileFolderData?.name] &&
+                                        <input 
+                                            type="text" 
+                                            className="bg-gray-800 ml-8 w-full outline-none text-white px-2"
+                                            value={newFileName}
+                                            onChange={(e)=>setNewFileName(e.target.value)}
+                                            onKeyDown={
+                                                (e)=>{
+                                                    if(e.key === 'Enter'){
+                                                        handleCreateNewFolder(fileFolderData)
+                                                    }
                                                 }
                                             }
                                         />
