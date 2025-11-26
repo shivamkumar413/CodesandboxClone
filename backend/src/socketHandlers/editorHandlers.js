@@ -1,5 +1,4 @@
 import fs from 'fs/promises'
-import fsSync from 'fs'
 
 export const handleEditorSocketEvents = (socket)=>{
     socket.on("writeFile",async ({data,pathToFileOrFolder})=>{
@@ -23,16 +22,11 @@ export const handleEditorSocketEvents = (socket)=>{
     })
 
     socket.on("createFile", async ({ pathToFileOrFolder })=>{
-        const isFileAlreadyPresent = await fs.stat(pathToFileOrFolder);
-        if(isFileAlreadyPresent){
-            socket.emit("error",{
-                data : "File already exists"
-            })
-            return
-        }
+        //how to check file already exists or not as exists is deprecated and stat is giving error
 
         try {
-            const response = await fs.writeFile(pathToFileOrFolder,"");
+            const response = await fs.writeFile(pathToFileOrFolder,"//welcome to the playground")
+            console.log("Response in create file : ",response)
             socket.emit("createFileSuccess",{
                 data : "File created successfully"
             })
@@ -94,7 +88,7 @@ export const handleEditorSocketEvents = (socket)=>{
         }
     })
 
-    socket.on("createFolder",async ({pathToFileOrFolder})=>{
+    socket.on("createFolder",async ({ pathToFileOrFolder })=>{
         try {
             const response = await fs.mkdir(pathToFileOrFolder)
             socket.emit("createFolderSuccess",{
@@ -121,5 +115,5 @@ export const handleEditorSocketEvents = (socket)=>{
             })
         }
     })
-    
+
 }   
