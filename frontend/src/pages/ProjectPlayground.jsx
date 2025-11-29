@@ -5,16 +5,14 @@ import { useEditorSocketStore } from "../store/editorSocketStore";
 import { useEffect } from "react";
 import {io} from 'socket.io-client'
 import { BrowserTerminal } from "../components/molecules/BrowserTerminal/BrowserTermial";
-
+import { Allotment } from "allotment";
+import "allotment/dist/style.css";
 
 function ProjectPlayground (){
         
-
     const {projectId : projectIdFromUrl} = useParams()
     const { setEditorSocket } = useEditorSocketStore()
 
-
-    
     useEffect(()=>{
         if(projectIdFromUrl){
             
@@ -30,16 +28,25 @@ function ProjectPlayground (){
 
     return (
         <>
-            Playground
-            Project id : {projectIdFromUrl}
-            <div className="flex">
-                <TreeStructure projectId={projectIdFromUrl} />
-                <div>
-                    <EditorComponent />
-                    <BrowserTerminal />
-                </div>
-                
-                
+            <div className="flex h-screen">
+                <Allotment className="h-full">
+                    <Allotment.Pane minSize={100}>
+                        <TreeStructure projectId={projectIdFromUrl} />
+                    </Allotment.Pane>
+
+                    <Allotment.Pane minSize={100} >
+                        <Allotment className="h-full" vertical>
+                            <Allotment.Pane minSize={100}>
+                                <EditorComponent />
+                            </Allotment.Pane>
+
+                            <Allotment.Pane minSize={100}>
+                                <BrowserTerminal />
+                            </Allotment.Pane>
+                        </Allotment>
+                        
+                    </Allotment.Pane>
+                </Allotment>
             </div>
             
         </>

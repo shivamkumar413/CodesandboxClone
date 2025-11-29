@@ -4,6 +4,7 @@ import gitHubDarkTheme from '../../../githubDarkTheme.json'
 import { useFileContentStore } from "../../../store/fileContentStore"
 import { useEditorSocketStore } from "../../../store/editorSocketStore"
 import { editorLanguage } from "../../../utils/editorLanguage.utils"
+import { Allotment } from "allotment"
 
 export const EditorComponent = () => {
 
@@ -45,8 +46,8 @@ export const EditorComponent = () => {
         <>
             {editorState.theme &&
                 <Editor
-                    height={'70vh'}
-                    width={'100%'}
+                    height={'100%'}
+                    width={'100vw'}
                     language={editorLanguage(fileContent?.extension)}
                     defaultValue="//Welcome to the playground"
                     // theme="vs-dark"

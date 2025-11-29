@@ -15,7 +15,7 @@ export const BrowserTerminal = ()=>{
         const term = new Terminal({
             cursorBlink : true,
             fontSize : 16,
-            fontFamily : "Fira Code",
+            fontFamily : `"DejaVu Sans Mono", monospace`,
             theme : {
                 background : "black",
                 foreground : "#ffffff",
@@ -50,7 +50,7 @@ export const BrowserTerminal = ()=>{
     return(
         <div 
             ref={terminalRef}
-            className=" h-[30vh] w-full overflow-auto border-t border-gray-200"
+            className="h-full w-screen overflow-auto border-t border-gray-200"
             id="terminal-container"
         >
         
