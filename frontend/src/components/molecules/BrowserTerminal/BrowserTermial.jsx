@@ -50,7 +50,7 @@ export const BrowserTerminal = ()=>{
     return(
         <div 
             ref={terminalRef}
-            className="h-full w-screen overflow-auto border-t border-gray-200"
+            className="h-screen w-screen overflow-auto border-t border-gray-200"
             id="terminal-container"
         >
         

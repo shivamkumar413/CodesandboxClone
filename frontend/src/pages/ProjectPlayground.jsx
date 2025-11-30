@@ -7,6 +7,7 @@ import {io} from 'socket.io-client'
 import { BrowserTerminal } from "../components/molecules/BrowserTerminal/BrowserTermial";
 import { Allotment } from "allotment";
 import "allotment/dist/style.css";
+import { ActiveFileChip } from "../components/atoms/ActiveFileChip/ActiveFileChip";
 
 function ProjectPlayground (){
         
@@ -14,14 +15,12 @@ function ProjectPlayground (){
     const { setEditorSocket } = useEditorSocketStore()
 
     useEffect(()=>{
-        if(projectIdFromUrl){
-            
+        if(projectIdFromUrl){  
             const editorSocketConnection = io(`${import.meta.env.VITE_BACKEND_URL}/editor`,{
                 query : {
                     projectId : projectIdFromUrl,
                 }
             })
-            
             setEditorSocket(editorSocketConnection)
         }
     },[setEditorSocket])
@@ -29,15 +28,21 @@ function ProjectPlayground (){
     return (
         <>
             <div className="flex h-screen">
+
                 <Allotment className="h-full">
                     <Allotment.Pane minSize={100}>
                         <TreeStructure projectId={projectIdFromUrl} />
                     </Allotment.Pane>
 
                     <Allotment.Pane minSize={100} >
+
                         <Allotment className="h-full" vertical>
                             <Allotment.Pane minSize={100}>
-                                <EditorComponent />
+                                <div className="h-full w-full">
+                                    <ActiveFileChip />
+                                    <EditorComponent />
+                                </div>
+                                
                             </Allotment.Pane>
 
                             <Allotment.Pane minSize={100}>
@@ -47,6 +52,7 @@ function ProjectPlayground (){
                         
                     </Allotment.Pane>
                 </Allotment>
+
             </div>
             
         </>
