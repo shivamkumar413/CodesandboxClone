@@ -9,6 +9,12 @@ export const ActiveFileChip = ()=>{
 
     function handleActiveTabClick(ele){    
         setFileContent(ele?.fileValue,ele?.filePath,ele?.fileExtension)
+        for(let i = 0;i<activeFileTab.length;i++){
+            if(ele?.filePath === activeFileTab[i].filePath) 
+                activeFileTab[i].isActive = true;
+            else 
+                activeFileTab[i].isActive = false
+        }
     }
 
     function handleRemoveActiveTab(event,ele){
@@ -22,17 +28,30 @@ export const ActiveFileChip = ()=>{
         )
         // console.log(activeFileTab[0].fileValue)
         //to handle edge cases here
-        if(idx!=0)
-            setFileContent(activeFileTab[idx-1]?.fileValue,activeFileTab[idx-1]?.filePath,activeFileTab[idx-1]?.fileExtension)
-        else
-            setFileContent(activeFileTab[idx+1]?.fileValue,activeFileTab[idx+1]?.filePath,activeFileTab[idx+1]?.fileExtension)
+        if(activeFileTab[idx].isActive){
+            if(idx!=0){
+                setFileContent(activeFileTab[idx-1]?.fileValue,activeFileTab[idx-1]?.filePath,activeFileTab[idx-1]?.fileExtension)
+                activeFileTab[idx-1].isActive = true
+            }   
+            else{
+                setFileContent(activeFileTab[idx+1]?.fileValue,activeFileTab[idx+1]?.filePath,activeFileTab[idx+1]?.fileExtension)
+                activeFileTab[idx+1].isActive = true
+            }
+            
+        }
+        
+    }
+
+    function handleActiveCSS(ele){
+        if(ele.isActive) return "border-y-2 border-gray-200 bg-gray-900"
+        else return "border-r border-gray-800 bg-[#094771]"
     }
 
     const arr = activeFileTab?.map((ele,idx)=>{
         return(
             <>
                 <div 
-                    className="px-3 py-2 flex items-center justify-between bg-gray-900 text-white text-center border-r border-gray-200 hover:cursor-pointer"
+                    className={`px-3 py-2 ${handleActiveCSS(ele)} flex bg-[#094771] items-center justify-between text-white text-center  hover:cursor-pointer`}
                     key={idx}
                     onClick={()=>handleActiveTabClick(ele)}
                 >

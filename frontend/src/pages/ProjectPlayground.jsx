@@ -8,6 +8,7 @@ import { BrowserTerminal } from "../components/molecules/BrowserTerminal/Browser
 import { Allotment } from "allotment";
 import "allotment/dist/style.css";
 import { ActiveFileChip } from "../components/atoms/ActiveFileChip/ActiveFileChip";
+import { ActiveFilePath } from "../components/atoms/ActiveFilePath/ActiveFilePath";
 
 function ProjectPlayground (){
         
@@ -38,8 +39,9 @@ function ProjectPlayground (){
 
                         <Allotment className="h-full" vertical>
                             <Allotment.Pane minSize={100}>
-                                <div className="h-full w-full">
+                                <div className="h-full w-full bg-[#094771]">
                                     <ActiveFileChip />
+                                    <ActiveFilePath />
                                     <EditorComponent />
                                 </div>
                                 

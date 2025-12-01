@@ -20,7 +20,8 @@ export const useEditorSocketStore = create ((set)=>({
                 activeFileTabSetter({
                     filePath : data?.path,
                     fileValue : data?.value,
-                    fileExtension : extension
+                    fileExtension : extension,
+                    isActive : true,
                 })
                  
             })
