@@ -255,7 +255,7 @@ export const TreeNode = ({fileFolderData})=>{
                         
                         <TreeNode 
                             fileFolderData={child}
-                            key={child.name}
+                            key={child?.name}
                         />
                     ))
                 )

@@ -9,11 +9,14 @@ import { Allotment } from "allotment";
 import "allotment/dist/style.css";
 import { ActiveFileChip } from "../components/atoms/ActiveFileChip/ActiveFileChip";
 import { ActiveFilePath } from "../components/atoms/ActiveFilePath/ActiveFilePath";
+import { Browser } from "../components/organisms/Browser/Browser";
+import { useTerminalSocketStore } from "../store/terminalSocketStore";
 
 function ProjectPlayground (){
         
     const {projectId : projectIdFromUrl} = useParams()
     const { setEditorSocket } = useEditorSocketStore()
+    const { setTerminalSocket } = useTerminalSocketStore()
 
     useEffect(()=>{
         if(projectIdFromUrl){  
@@ -22,9 +25,16 @@ function ProjectPlayground (){
                     projectId : projectIdFromUrl,
                 }
             })
+            try {
+                const ws = new WebSocket("ws://localhost:4000/terminal?projectId="+projectIdFromUrl);
+                setTerminalSocket(ws);
+                
+            } catch(error) {
+                console.log("error in ws", error);
+            }
             setEditorSocket(editorSocketConnection)
         }
-    },[setEditorSocket])
+    },[ projectIdFromUrl, setEditorSocket, setTerminalSocket])
 
     return (
         <>
@@ -52,6 +62,10 @@ function ProjectPlayground (){
                             </Allotment.Pane>
                         </Allotment>
                         
+                    </Allotment.Pane>
+
+                    <Allotment.Pane minSize={100}>
+                        <Browser />
                     </Allotment.Pane>
                 </Allotment>
 

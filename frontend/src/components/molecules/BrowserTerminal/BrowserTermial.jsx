@@ -4,12 +4,15 @@ import { AttachAddon } from "@xterm/addon-attach"
 import '@xterm/xterm/css/xterm.css'
 import { useEffect, useRef } from "react"
 import { useParams } from "react-router-dom"
+import { useEditorSocketStore } from "../../../store/editorSocketStore"
+import { usePortStore } from "../../../store/portStore"
+import { useTerminalSocketStore } from "../../../store/terminalSocketStore"
 
 export const BrowserTerminal = ()=>{
 
     const terminalRef = useRef(null)
-    const socket = useRef(null)
-    const {projectId : projectIdFromUrl} = useParams()
+    
+   const { terminalSocket } = useTerminalSocketStore()
 
     useEffect(()=>{
         const term = new Terminal({
@@ -35,17 +38,18 @@ export const BrowserTerminal = ()=>{
         //     }
         // })
 
-        socket.current = new WebSocket(`ws://localhost:3000/terminal?projectId=${projectIdFromUrl}`)
-
-        socket.current.onopen = ()=>{
-            const attachAddOn = new AttachAddon(socket.current)
-            term.loadAddon(attachAddOn)
+        if(terminalSocket) {
+            terminalSocket.onopen = () => {
+                const attachAddon = new AttachAddon(terminalSocket);
+                term.loadAddon(attachAddon);
+                // socket.current = ws;
+            }
         }
 
         return ()=>{
             term.dispose()
         }
-    },[])
+    },[terminalSocket])
 
     return(
         <div 

@@ -57,7 +57,7 @@ export const TreeStructure = ()=>{
             />
         }
             
-            <div className="h-screen  bg-gray-950 border-r border-gray-200">
+            <div className="h-screen overflow-y-auto bg-gray-950 border-r border-gray-200">
                 <TreeNode fileFolderData={treeStructure} />
             </div>
             
