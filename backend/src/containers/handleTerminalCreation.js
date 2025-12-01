@@ -1,5 +1,5 @@
 export const handleTerminalCreation = (container,ws)=>{
-    container.exec({
+    container?.exec({
         Cmd : ['/bin/bash'],
         User : 'sandbox',
         AttachStdin : true,
@@ -23,7 +23,6 @@ export const handleTerminalCreation = (container,ws)=>{
             // 1. processing stream
             processStreamOutput(stream,ws)
             //2. stream writing
-
             ws.on("message",(data)=>{
                 stream.write(data)
             })

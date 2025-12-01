@@ -6,9 +6,6 @@ import { PORT } from './config/server.config.js'
 import apiRouter from './routes/index.js'
 import chokidar from 'chokidar'
 import { handleEditorSocketEvents } from './socketHandlers/editorHandlers.js'
-import { handleContainerCreate } from './containers/handleContainerCreation.js'
-import { WebSocketServer } from 'ws'
-import { handleTerminalCreation } from './containers/handleTerminalCreation.js'
 
 const app = express()
 const server = createServer(app)
@@ -76,41 +73,4 @@ server.listen(PORT,()=>{
     console.log(`server is running on ${PORT}`);
     
 })
-// whenever websocket connection is done b/w client and server , first client sends http request and after that
-// upgrade on that http and form websocket connection
-const webSocketForTerminal = new WebSocketServer({
-    noServer : true, // we will handle the upgrade event
-})
 
-server.on('upgrade',(req,tcpSocket,head)=>{
-    /*
-        req : Incoming http request
-        socket : TCP Socket
-        head : Buffer containing the first packet of the upgraded stream
-    */
-    //This callback will be called when a client tries to connect to the server through websocket 
-
-    const isTerminal = req.url.includes("/terminal")
-
-    if(isTerminal){
-        console.log(req.url)
-        const projectId = req.url.split('=')[1]
-        console.log("Project Id at terminal after connection",projectId)
-
-        handleContainerCreate(projectId,webSocketForTerminal,req,tcpSocket,head)
-    }
-})
-
-webSocketForTerminal.on("connection",(ws,req,container)=>{
-    console.log("Terminal connected")
-    console.log(container)
-    handleTerminalCreation(container,ws)
-    ws.on('close',()=>{
-        container.remove({force:true},(err,data)=>{
-            if(err){
-                console.log("Error while removing container",err)
-            }
-            console.log("Container removed successfully",data)
-        })
-    })
-})

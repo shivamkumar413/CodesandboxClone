@@ -5,6 +5,9 @@ export function directoryTree(projectPath){
 
     function createDirectoryTree(inPath){
         const modifiedPath = inPath
+        if (inPath.includes("node_modules\\.bin")) {
+            return; // skip
+        }
         const stats = fs.statSync(inPath);
 
         const node = {
