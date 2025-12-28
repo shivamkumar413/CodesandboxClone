@@ -30,14 +30,14 @@ git clone https://github.com/shivamkumar413/CodesandboxClone.git
 3. Authentication and Authorization
 4. Add all projects to AWS S3 and sync it with changes.
 
+## Screenshots
 <img width="1919" height="919" alt="image" src="https://github.com/user-attachments/assets/f8a33254-62c9-4349-870a-f0a9e1e525ed" />
 
 ## Author 
 Shivam Kumar  
-
 Github : https://github.com/shivamkumar413  
-
 LinkedIn : https://www.linkedin.com/in/shivamkumar413/
+
 
 
 
