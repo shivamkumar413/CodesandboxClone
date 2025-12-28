@@ -13,13 +13,13 @@ This is a web based text editor for creating react projects on the browser and r
 ## Installation and setup
 git clone https://github.com/shivamkumar413/CodesandboxClone.git
 `Install Docker Desktop and open it for running docker engine`
-cd codesandboxClone/frontend
-npm install
-npm run dev
-cd codesandboxClone/backend
-npm install
-npm run dev
-npm start
+1. cd codesandboxClone/frontend
+2. npm install
+3. npm run dev
+4. cd codesandboxClone/backend
+5. npm install
+6. npm run dev
+7. npm start 
 `Execute both npm run dev and npm start for backend as there are two servers for backend`
 
 ## Future Scopes
@@ -34,4 +34,5 @@ npm start
 Shivam Kumar
 Github : https://github.com/shivamkumar413
 LinkedIn : https://www.linkedin.com/in/shivamkumar413/
+
 
