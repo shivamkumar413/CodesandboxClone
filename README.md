@@ -1,8 +1,8 @@
 # Codesandbox Clone
-A web based text editor built using react and Node.js
+A browser based text editor built using react and Node.js
 
 ## Overview
-This is a web based text editor for creating react projects on the browser and running it without changing the tab.
+This is a browser based text editor for creating react projects on the browser and running it without changing the tab.
 
 ## Tech Stack
 1. React js
@@ -12,6 +12,7 @@ This is a web based text editor for creating react projects on the browser and r
 
 ## Installation and setup
 git clone https://github.com/shivamkumar413/CodesandboxClone.git
+
 `Install Docker Desktop and open it for running docker engine`  
 
 1. cd codesandboxClone/frontend
@@ -24,6 +25,8 @@ git clone https://github.com/shivamkumar413/CodesandboxClone.git
    
 `Execute both npm run dev and npm start for backend as there are two servers for backend`
 
+To run the react project inside the text edtior use command `npm run dev -- --host 0.0.0.0`
+
 ## Future Scopes
 1. Can create more projects other than react
 2. Real time collaboration for multiple users using websockets
@@ -31,12 +34,13 @@ git clone https://github.com/shivamkumar413/CodesandboxClone.git
 4. Add all projects to AWS S3 and sync it with changes.
 
 ## Screenshots
-<img width="1919" height="919" alt="image" src="https://github.com/user-attachments/assets/f8a33254-62c9-4349-870a-f0a9e1e525ed" />
+<img width="1919" height="915" alt="image" src="https://github.com/user-attachments/assets/ea452287-ed04-432f-b022-160e164727c4" />
 
 ## Author 
 Shivam Kumar  
 Github : https://github.com/shivamkumar413  
 LinkedIn : https://www.linkedin.com/in/shivamkumar413/
+
 
 
 
