@@ -3,7 +3,7 @@ import { createProjectController, getFileContentController, getProjectTreeContro
 
 const router= express.Router()
 
-router.post('/',createProjectController)
+router.post('/:projectName',createProjectController)
 router.get('/:projectId/tree',getProjectTreeController)
 router.post('/file',getFileContentController)
 

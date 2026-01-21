@@ -1,7 +1,7 @@
 import fs from 'fs/promises'
 import { getContainerPort } from '../containers/handleContainerCreation.js'
 
-export const handleEditorSocketEvents = (socket)=>{
+export const handleEditorSocketEvents = (io,socket)=>{
     socket.on("writeFile",async ({data,pathToFileOrFolder})=>{
         try {
             console.log("data at backend :",data)
@@ -11,7 +11,7 @@ export const handleEditorSocketEvents = (socket)=>{
             // const stringPath = pathToFileOrFolder.toString()
             const response = await fs.writeFile(pathToFileOrFolder,data);
             console.log("Write response : ",response)
-            socket.emit("writeFileSuccess",{
+            socket.broadcast.emit("writeFileSuccess",{
                 data : "File written successfully"
             })
         } catch (error) {
@@ -49,7 +49,7 @@ export const handleEditorSocketEvents = (socket)=>{
             })
         } catch (error) {
             console.log("Error reading the file ",error)
-            socket.emit("error",()=>{
+            socket.broadcast.emit("error",()=>{
                 data : "Error reading the file"
             })
         }

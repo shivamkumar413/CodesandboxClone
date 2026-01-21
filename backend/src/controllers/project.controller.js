@@ -2,7 +2,8 @@ import { createProjectService, getProjectTreeService , getFileContentService} fr
 
 export const createProjectController = async (req,res)=>{
     
-    const projectId = await createProjectService()
+    console.log(req.params.projectName)
+    const projectId = await createProjectService(req.params.projectName)
 
 
     // const { stdout, stderr } = await execPromisified('npm create vite@latest');

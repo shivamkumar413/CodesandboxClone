@@ -26,6 +26,7 @@ export const handleTerminalCreation = (container,ws)=>{
             ws.on("message",(data)=>{
                 stream.write(data)
             })
+               
         })
     }
 )}
