@@ -6,9 +6,6 @@ import { useContextFileMenuStore } from "../../../store/fileContextMenuStore"
 import { FileContextMenu } from "../../molecules/ContextMenu/FileContextMenu"
 import { useContextFolderMenuStore } from "../../../store/folderContextMenuStore"
 import { FolderContextMenu } from "../../molecules/ContextMenu/FolderContextMenu"
-import { Allotment } from "allotment";
-import "allotment/dist/style.css";
-
 
 export const TreeStructure = ()=>{
 

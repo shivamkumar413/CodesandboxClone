@@ -176,20 +176,23 @@ export const TreeNode = ({fileFolderData})=>{
 
                                 {
                                     isCreateFileOpen[fileFolderData?.name] &&
-                                        <input 
-                                            type="text" 
-                                            className="bg-gray-800 ml-8 w-full outline-none text-white px-2"
-                                            value={newFileName}
-                                            onChange={(e)=>setNewFileName(e.target.value)}
-                                            onKeyDown={
-                                                (e)=>{
-                                                    if(e.key === 'Enter'){
-                                                        handleCreateNewFile(e,fileFolderData)
+                                        <div className="ml-6 flex items-center w-full outline-none text-white px-2">
+                                            <FileIcon extension={newFileName.split(".").pop()} />
+                                            <input 
+                                                type="text" 
+                                                className="bg-gray-800 ml-2"
+                                                value={newFileName}
+                                                onChange={(e)=>setNewFileName(e.target.value)}
+                                                onKeyDown={
+                                                    (e)=>{
+                                                        if(e.key === 'Enter'){
+                                                            handleCreateNewFile(e,fileFolderData)
+                                                        }
+                                                        
                                                     }
-                                                    
                                                 }
-                                            }
-                                        />
+                                            />
+                                        </div>
                                 }
 
                                 {

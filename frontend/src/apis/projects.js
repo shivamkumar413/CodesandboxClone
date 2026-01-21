@@ -1,8 +1,8 @@
 import axiosInstance from "../config/axiosConfig";
 
-export const createProjectApi = async()=>{
+export const createProjectApi = async(currentProjectName)=>{
     try {
-        const response = await axiosInstance.post('/api/v1/projects');
+        const response = await axiosInstance.post(`/api/v1/projects/${currentProjectName}`);
         console.log(response.data);
         return response.data
         

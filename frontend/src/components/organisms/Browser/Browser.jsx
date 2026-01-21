@@ -42,7 +42,7 @@ export const Browser = ()=>{
                     backgroundColor: "#282a35",
                 }}
                 prefix={<ReloadOutlined onClick={handleRefresh} />}
-                defaultValue={`http://localhost:${port}`}
+                defaultValue={`Browser`}
             />
             <iframe
                 className="w-full h-screen"

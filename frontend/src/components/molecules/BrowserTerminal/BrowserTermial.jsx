@@ -3,9 +3,6 @@ import { FitAddon } from "@xterm/addon-fit"
 import { AttachAddon } from "@xterm/addon-attach"
 import '@xterm/xterm/css/xterm.css'
 import { useEffect, useRef } from "react"
-import { useParams } from "react-router-dom"
-import { useEditorSocketStore } from "../../../store/editorSocketStore"
-import { usePortStore } from "../../../store/portStore"
 import { useTerminalSocketStore } from "../../../store/terminalSocketStore"
 
 export const BrowserTerminal = ()=>{
@@ -42,7 +39,6 @@ export const BrowserTerminal = ()=>{
             terminalSocket.onopen = () => {
                 const attachAddon = new AttachAddon(terminalSocket);
                 term.loadAddon(attachAddon);
-                // socket.current = ws;
             }
         }
 
@@ -52,12 +48,12 @@ export const BrowserTerminal = ()=>{
     },[terminalSocket])
 
     return(
+
         <div 
             ref={terminalRef}
             className="h-screen w-screen overflow-auto border-t border-gray-200"
             id="terminal-container"
         >
-        
         
         </div>
     )
